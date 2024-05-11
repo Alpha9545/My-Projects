@@ -1,0 +1,416 @@
+//html code
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic-tac-toe</title>
+    <link rel="stylesheet" href="game.css">
+</head>
+<body>
+    <main><div class="wincont hide">
+        <h2 id="win" >Winner</h2>
+        <button id="newBtn">New Game</button>
+    </div>
+        <h2>
+            Tic-Tac-Toe
+        </h2>
+        <div class="contener">
+            <div class="game">
+                <button class="boxs"><div class="mark"></div></button>
+                <button class="boxs"><div class="mark"></div></button>
+                <button class="boxs"><div class="mark"></div></button>
+                <button class="boxs"><div class="mark"></div></button>
+                <button class="boxs"><div class="mark"></div></button>
+                <button class="boxs"><div class="mark"></div></button>
+                <button class="boxs"><div class="mark"></div></button>
+                <button class="boxs"><div class="mark"></div></button>
+                <button class="boxs"><div class="mark"></div></button>
+            </div>
+        </div>
+        <button id="resetbtn">Reset Game</button>
+        <div class="player">Play: 1<sub>st </sub> Player</div>
+    </main>
+<script src="game.js"></script>    
+</body>
+</html>
+
+
+
+//CSS for tic-tac-toe
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: aquamarine;
+    text-align: center;
+}
+
+.contener {
+    height: 70vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.game {
+    height: 60vmin;
+    width: 60vmin;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1.7vmin;
+}
+.mark {
+    height: 18vmin;
+    width: 18vmin;
+}
+.color {
+    color: red;
+}
+.boxs {
+    height: 18vmin;
+    width: 18vmin;
+    font-size: 8vmin;
+    border-radius: 2vmin;
+    border: none;
+    box-shadow: 0 0 1rem rgba(0, 0, 0, 0.5);
+}
+
+.newBoxs {
+    height: 18vmin;
+    width: 18vmin;
+    font-size: 8vmin;
+    border-radius: 2vmin;
+    border: none;
+    box-shadow: 0 0 1rem rgb(0, 0, 0,0.5);
+}
+
+.player {
+    height: 10vmin;
+    background-color: rgb(0,206,209,0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 0.5rem;
+    font-size: 5vmin;
+
+}
+
+
+.wincont {
+    height: 70vmin;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 2rem;
+}
+#win {
+    
+    font-size: 8vmin;
+   
+}
+#newBtn {
+    height: 5vmin;
+    width: 18vmin;
+    background-color: #42d9c8;
+    color: #931621;
+    border-radius: 2rem;
+    border: none;
+    box-shadow: 0 0 1rem rgb(0, 0, 0,0.5);
+}
+
+#resetbtn {
+    height: 5vmin;
+    width: 18vmin;
+    background-color: #42d9c8;
+    color: #931621;
+    border-radius: 2rem;
+    border: none;
+    box-shadow: 0 0 1rem rgb(0, 0, 0,0.5);
+    margin-bottom: 7vmin;
+}
+
+
+
+//jS code
+let  btn = document.querySelectorAll(".boxs");
+console.dir(btn);
+
+let mark = document.querySelectorAll(".mark");
+
+let play = document.querySelector(".player");
+
+let newbtn = document.querySelector("#newBtn");
+let resetbtn = document.querySelector("#resetbtn");
+let winmsg = document.querySelector("#win");
+let mescon = document.querySelector(".hide");
+console.dir(mark);
+
+const winpattern = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+
+let boxMark = true;
+let count = 0;
+
+
+
+btn.forEach((box) => {
+   box.addEventListener("click", () => {
+    if(boxMark){
+        box.classList.add("color");
+        console.log(boxMark);
+        boxMark = false;
+        box.innerText = "O";
+        play.innerText = "Play: 2nd Player";
+        count++;
+        box.disabled = true;
+    }else{
+        box.classList.remove("color");
+        console.log(boxMark);
+        boxMark = true;
+        box.innerText = "X";
+        play.innerText = "Play: 1st Player";
+        count++;
+        box.disabled = true;
+    }
+    checkwinner();
+    
+   });
+   
+});
+
+
+
+const newgame = () =>{
+    boxMark = true;
+    count = 0;
+    mescon.classList.add("hide");
+    play.innerText = "Play: 1st Player";
+    undisabl();
+    
+};
+
+// for(let i=0; i<=8; i++){
+// btn[i].addEventListener("click", () =>{
+//     if(boxMark === "true"){
+//         console.log(boxMark);
+//         boxMark = "false";
+//         mark[i].innerText = "O";
+//         play.innerText = "Play: 2nd Player";
+//     }else{
+//         console.log(boxMark);
+//         boxMark = "true";
+//         mark[i].innerText = "X";
+//         play.innerText = "Play: 1st Player";
+        
+//     }
+//     checkwinner();
+// });
+// }
+
+const disabl = () =>{
+    for(val of btn){
+        val.disabled = true;
+    }
+}
+const undisabl = () =>{
+    for(val of btn){
+        val.disabled = false;
+        val.innerText = "";
+    }
+}
+
+const showwinner = (winner) =>{
+    winmsg.innerText = `Congratulatin Winner Is ${winner}`;
+    mescon.classList.remove("hide");
+    disabl();
+
+}
+const shownowin = () =>{
+    winmsg.innerText = `Game Draw There is no Winner  `;
+    mescon.classList.remove("hide");
+    disabl();
+
+}
+const checkwinner = () =>{
+    for(let patten of winpattern){
+        let pval1 = btn[patten[0]].innerText;
+        let pval2 = btn[patten[1]].innerText;
+        let pval3 =  btn[patten[2]].innerText;
+
+        if(pval1 != "" && pval2 != "" && pval3 != ""){
+            if(pval1 === pval2 && pval2 === pval3){
+                console.log("Winner");
+                showwinner(pval1);
+
+            }else if(count === 9 && pval1 != pval2 && pval2 !== pval3){
+                shownowin();
+            }
+        }
+}
+};
+
+
+
+
+newbtn.addEventListener("click", newgame);
+
+resetbtn.addEventListener("click", newgame);
+
+
+// btn[1].addEventListener("click", () =>{
+//     if(boxMark === "true"){
+//         console.log(boxMark);
+//         boxMark = "false";
+//         mark[1].innerText = "O";
+//         play.innerText = "Play: 2nd Player";
+//         count++;
+        
+//     }else{
+//         console.log(boxMark);
+//         boxMark = "true";
+//         mark[1].innerText = "X";
+//         play.innerText = "Play: 1st Player";
+//         count++;
+//     }
+// });
+// btn[2].addEventListener("click", () =>{
+//     if(boxMark === "true"){
+//         console.log(boxMark);
+//         boxMark = "false";
+//         mark[2].innerText = "O";
+//         play.innerText = "Play: 2nd Player";
+//         count++;
+//     }else{
+//         console.log(boxMark);
+//         boxMark = "true";
+//         mark[2].innerText = "X";
+//         play.innerText = "Play: 1st Player";
+//         count++;
+//     }
+// });
+// btn[3 ].addEventListener("click", () =>{
+//     if(boxMark === "true"){
+//         console.log(boxMark);
+//         boxMark = "false";
+//         mark[3].innerText = "O";
+//         play.innerText = "Play: 2nd Player";
+//         count++;
+//     }else{
+//         console.log(boxMark);
+//         boxMark = "true";
+//         mark[3].innerText = "X";
+//         play.innerText = "Play: 1st Player";
+//         count++;
+//     }
+// });
+// btn[4].addEventListener("click", () =>{
+//     if(boxMark === "true"){
+//         console.log(boxMark);
+//         boxMark = "false";
+//         mark[4].innerText = "O";
+//         play.innerText = "Play: 2nd Player";
+//         count++;
+//     }else{
+//         console.log(boxMark);
+//         boxMark = "true";
+//         mark[4].innerText = "X";
+//         play.innerText = "Play: 1st Player";
+//         count++;
+//     }
+// });
+// btn[5].addEventListener("click", () =>{
+//     if(boxMark === "true"){
+//         console.log(boxMark);
+//         boxMark = "false";
+//         mark[5].innerText = "O";
+//         play.innerText = "Play: 2nd Player";
+//         count++;
+//     }else{
+//         console.log(boxMark);
+//         boxMark = "true";
+//         mark[5].innerText = "X";
+//         play.innerText = "Play: 1st Player";
+//         count++;
+//     }
+// });
+// btn[7].addEventListener("click", () =>{
+//     if(boxMark === "true"){
+//         console.log(boxMark);
+//         boxMark = "false";
+//         mark[7].innerText = "O";
+//         play.innerText = "Play: 2nd Player";
+//         count++;
+//     }else{
+//         console.log(boxMark);
+//         boxMark = "true";
+//         mark[7].innerText = "X";
+//         play.innerText = "Play: 1st Player";
+//         count++;
+//     }
+// });
+// btn[8].addEventListener("click", () =>{
+//     if(boxMark === "true"){
+//         console.log(boxMark);
+//         boxMark = "false";
+//         mark[8].innerText = "O";
+//         play.innerText = "Play: 2nd Player";
+//         count++;
+//     }else{
+//         console.log(boxMark);
+//         boxMark = "true";
+//         mark[8].innerText = "X";
+//         play.innerText = "Play: 1st Player";
+//         count++;
+//     }
+// });
+// btn[6].addEventListener("click", () =>{
+//     if(boxMark === "true"){
+//         console.log(boxMark);
+//         boxMark = "false";
+//         mark[6].innerText = "O";
+//         play.innerText = "Play: 2nd Player";
+//         count++;
+//     }else{
+//         console.log(boxMark);
+//         boxMark = "true";
+//         mark[6].innerText = "X";
+//         play.innerText = "Play: 1st Player";
+//         count++;
+//     }   
+// });
+
+
+
+
+
+// for(i=0; i<=9; i++){
+// btn[val].onclick = () =>{
+//     if(boxMark === "true"){
+//         boxMark = "false";
+//         console.log(boxMark);
+//         console.log(val);
+       
+//         mark[i].innerText = "X";
+        
+//     }else{
+//         boxMark = "true";
+//         console.log(boxMark);
+//         console.log(val);
+        
+        
+//         mark[i].innerText = "O";
+            
+// }
+// };
+// val++;
+// };
+
+
+.hide {
+    display: none;
+}

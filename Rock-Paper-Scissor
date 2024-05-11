@@ -1,0 +1,212 @@
+//HTML code
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rock-Paper-Scisser</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="navbar">
+        Rock-Paper-Scissor
+    </div>
+    <div id="maingame">
+    <div id="Rock" class="choice">
+        <img src="Rock.png" height="100%" width="100%">
+        Rock
+    </div>
+    <div id="Paper" class="choice">
+        <img src="Paper.png" height="100%" width="100%">
+        Paper
+    </div>
+    <div id="Scisser" class="choice">
+        <img src="Scisser.png" height="100%" width="100%">
+        Scisser
+    </div>
+    </div><br>
+<div class="score">Score</div>
+    <div id="count">
+        <div class="count" id="you">0</div>
+        <div class="count" id="com">0</div><br><br>
+        <div class="count">You</div>
+        <div class="count">Computer</div>
+    </div>
+    <div id="message-box">
+       <div id="message">Play Game</div> 
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
+
+
+
+
+//CSS code
+#navbar{
+    height: 10vmin;
+    text-align: center;
+    font-size: 5vmin;
+    background-color: aquamarine;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: -0.3rem;
+}
+
+.choice {
+    height: 15vmax;
+    width: 15vmax;
+
+}
+#maingame {
+    margin-top: 10vmin;
+    display: flex;
+    justify-content: space-evenly;
+    margin-left: 5rem;
+    margin-right: 5rem;
+}
+
+#message-box {
+    margin-top: 6vmin;
+    display: flex;
+    justify-content: center;
+   
+
+}
+
+#message {
+    height: 10vmin;
+    width: 50vmax;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 2rem;
+    border-radius: 1rem;
+    background-color:aqua;
+}
+img {
+    border-radius: 50%;
+}
+img:hover {
+    border: 0.4rem solid rgb(250, 77, 129);
+    cursor: pointer;
+}
+#Rock {
+   font-size: 2rem;
+   text-align: center;
+   object-fit: cover;
+}
+
+#Paper {
+    font-size: 2rem;
+    text-align: center;
+    object-fit: cover;
+}
+
+#Scisser {
+    font-size: 2rem;
+    text-align: center;
+    object-fit: cover;
+}
+.count {
+    font-size: 1.5rem;
+    width: 40%;
+    text-align: center;
+    background-color: rgb(252, 202, 231);
+    border-radius: 1rem;
+    margin-left: 2rem;
+    border: 0.1rem solid black;
+}
+#count {
+    margin-top: 1rem;
+    height: 12vmin;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    
+}
+.score {
+    font-size: 2rem;
+    margin-top: 5rem;
+    text-align: center;
+    background-color: lightblue;
+    border-radius: 1rem;
+    border: 0.1rem solid black;
+}
+
+
+
+
+//JS code
+let you=document.querySelector("#you");
+let com=document.querySelector("#com");
+let mes=document.querySelector("#message");
+
+let choices= document.querySelectorAll(".choice");
+let userChoice = 0;
+let compChoice = 0;
+
+const com_ch= () => {
+    const computre_ch = ["Rock","Paper","Scisser"];
+    const comp= Math.floor(Math.random() * 3);
+    return computre_ch[comp];
+}
+
+const playgame = (user_ch) => {
+    const compu_gen = com_ch();
+    if(user_ch === compu_gen){
+        mes.innerHTML="Game Draw/,Play Again";
+        mes.style.backgroundColor = "aqua";
+    }else{
+        checkwin(user_ch,compu_gen);
+    }
+}
+
+const checkwin = (user_ch,compu_gen) => {
+    if(user_ch === "Rock"){
+        if(compu_gen === "Paper"){
+            compChoice++;
+            mes.innerHTML=`Opss You Lose! ${compu_gen} beats Your ${user_ch}`;
+            mes.style.backgroundColor = "red";
+        }else{
+            userChoice++;
+            mes.innerHTML=`Congratulation You Win! Your ${user_ch} beats ${compu_gen}`;
+            mes.style.backgroundColor = "rgb(48, 232, 128)";
+        }
+    }
+    if(user_ch === "Paper"){
+        if(compu_gen === "Scisser"){
+            compChoice++;
+            mes.innerHTML=`Opss You Lose! ${compu_gen} beats Your ${user_ch}`;
+            mes.style.backgroundColor = "red";
+        }else{
+            userChoice++;
+            mes.innerHTML=`Congratulation You Win! Your ${user_ch} beats ${compu_gen}`;
+            mes.style.backgroundColor = "rgb(48, 232, 128)";
+        }
+    }
+    if(user_ch === "Scisser"){
+        if(compu_gen === "Rock"){
+            compChoice++;
+            mes.innerHTML=`Opss You Lose! ${compu_gen} beats Your ${user_ch}`;
+            mes.style.backgroundColor = "red";
+        }else{
+            userChoice++;
+            mes.innerHTML=`Congratulation You Win! Your ${user_ch} beats ${compu_gen}`;
+            mes.style.backgroundColor = "rgb(48, 232, 128)";
+        }
+    }
+    com.innerText=compChoice;
+    you.innerText=userChoice;
+}
+
+choices.forEach((choice) => {
+    choice.addEventListener("click", () =>{
+    const user_ch= choice.getAttribute("Id");
+    playgame(user_ch);
+    });
+});
+
